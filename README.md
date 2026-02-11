@@ -7,7 +7,7 @@ Student Names and Student Numbers
 1- Michael Massaad (300293612).
 2- Gabriel Zohrob (300309391).
 3- Matin Hassanzadeh Mobini ().
-4- Eric Zhou ().
+4- Eric Zhou (300286231).
 
 Tasks division:
 
