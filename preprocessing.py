@@ -21,10 +21,10 @@ stemmer = PorterStemmer()
 
 def preprocess_text(text):
 
-    # 1. lowercase
+    # lowercase
     text = text.lower()
 
-    # remove html
+    # remove markup
     text = re.sub(r'<.*?>', '', text)
 
     # remove punctuation
@@ -33,7 +33,7 @@ def preprocess_text(text):
     # remove numbers
     text = re.sub(r'\d+', '', text)
 
-    # tokenize (split on whitespace)
+    # tokenize
     tokens = text.split()
 
     # remove stopwords
@@ -45,11 +45,11 @@ def preprocess_text(text):
     return tokens
 
 
-def preprocess_document(document):
+def preprocess_corpus(corpus):
 
     documents_tokens = {}
 
-    with open(document, 'r', encoding='utf-8') as f:
+    with open(corpus, 'r', encoding='utf-8') as f:
         for line in f:
             doc = json.loads(line)
 
@@ -63,6 +63,3 @@ def preprocess_document(document):
             documents_tokens[doc_id] = tokens
 
     return documents_tokens
-
-tokens = preprocess_document("corpus.jsonl")
-print("TOKENS:\n", tokens)
