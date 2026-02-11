@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html><head><script>window.addEventListener('message', function(event) { 
+					if( !event.data ) {
+						return;
+					}
+
+					let params;
+					try {
+						params = JSON.parse( event.data );
+					}
+					catch {
+						return;
+					}
+					if( !params.subject || params.subject !== 'lti.frameResize' ) {
+						return;
+					}
+
+					const MAX_FRAME_HEIGHT = 10000;
+					if( !params.height || params.height < 1 || params.height > MAX_FRAME_HEIGHT ) {
+						console.warn( 'Invalid height value received, aborting' );
+						return;
+					}
+					const el = document.getElementsByTagName( 'iframe' );
+					for ( let i=0; i < el.length; i++ ) {
+						if( el[i].contentWindow === event.source ) {
+							el[i].style.height = params.height + 'px';
+
+							console.info( 'Setting iFrame height to ' + params.height );
+
+							if( el[i].getAttribute('lockwidth') !== 'true'){
+								el[i].style.width = '100%';
+								console.info( 'Setting iFrame width to 100%' );
+							}
+						}
+					}
+				});</script><script src="https://s.brightspace.com/lib/bsi/2026.1.213/unbundled/embeds.js" type="module"></script><script>document.addEventListener('DOMContentLoaded', function() {
+					window.D2L.EmbedRenderer.renderEmbeds(document.body);
+				});</script><script src="https://s.brightspace.com/lib/bsi/2026.1.213/unbundled/mathjax.js" type="module"></script><script>document.addEventListener('DOMContentLoaded', function() {
+					if (document.querySelector('math, .d2l-element, .d2l-cplus-layout') || /\$\$|\\\(|\\\[|\\begin{|\\ref{|\\eqref{/.test(document.body.innerHTML)) {
+						document.querySelectorAll('mspace[linebreak="newline"]').forEach(elm => {
+							elm.setAttribute('style', 'display: block; height: 0.5rem;');
+						});
+
+						document.querySelectorAll('math mmultiscripts > none').forEach(elm => {
+							const mrow = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'mrow');
+							elm.replaceWith(mrow);
+						});
+
+						window.D2L.MathJax.loadMathJax({
+							outputScale: 1.5,
+							renderLatex: false,
+							enableMML3Support: false
+						});
+					}
+				});</script><script src="https://s.brightspace.com/lib/bsi/2026.1.213/unbundled/prism.js" type="module"></script><script>document.addEventListener('DOMContentLoaded', function() {
+					document.querySelectorAll('.d2l-code').forEach(code => {
+						window.D2L.Prism.formatCodeElement(code);
+					});
+				});</script><script src="https://s.brightspace.com/lib/bsi/2026.1.213/unbundled/creator.js" type="module"></script><script>document.addEventListener('DOMContentLoaded', async () => {
+					const activities = [];
+					const practices = [];
+					const allPractices = document.querySelectorAll('.d2l-practice');
+					const elements = document.querySelectorAll('.d2l-element');
+					let layouts = [...document.querySelectorAll('.d2l-cplus-layout')];
+					const tables = document.querySelectorAll('table');
+					const contentStylerStyleLinks = document.querySelectorAll('head > link[href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"]');
+					const contentStylerOverides = document.querySelectorAll('head > link[href^="/d2l/le/contentstyler/"][data-override="override"]');
+
+					layouts = layouts.filter((layout) => layout.closest('.d2l-element.mceNonEditable') === null);
+
+					for (const practice of allPractices) {
+						const activityContainer = practice.hasAttribute('data-d2l-activity-href');
+						if (activityContainer) {
+							activities.push(practice);
+						}
+						else {
+							practices.push(practice);
+						}
+					}
+
+					if (layouts.length > 0) {
+						window.D2L.Creator.convertLayouts(layouts);
+					}
+					if (elements.length > 0) {
+						window.D2L.Creator.convertElements(elements, 572394, '/content/enforced/572394-2261FS0066461A00/');
+					}
+					if (activities.length > 0) {
+						window.D2L.Creator.convertPracticeActivities(activities, 572394, '/content/enforced/572394-2261FS0066461A00/');
+					}
+					if (practices.length > 0) {
+						window.D2L.Creator.convertPractices(practices, 572394, '/content/enforced/572394-2261FS0066461A00/');
+					}
+					if (contentStylerStyleLinks.length > 0 && contentStylerOverides.length > 0 && tables.length > 0) {
+						window.D2L.Creator.wrapTables(tables);
+					}
+				});</script><script>function lti_launch( vars, target ) {
+						var query = '';
+						var new_tab = false;
+
+						for(var key in vars) {
+							if(query.length == 0) {
+								query += '?' + key + '=' + encodeURIComponent(vars[key]);
+							}
+							else {
+								query += '&' + key + '=' + encodeURIComponent(vars[key]);
+							}
+						}
+
+						var url = '/d2l/customization/pearsonlti/572394/Launch' + query;(target == '_blank') ? window.open( url, '_blank' ) : location.replace( url );}</script></head><body style="color: rgb(32, 33, 34); font-family: verdana, sans-serif; font-size: 12px;"><pre>a
+about
+above
+ac
+according
+accordingly
+across
+actually
+ad
+adj
+af
+after
+afterwards
+again
+against
+al
+albeit
+all
+almost
+alone
+along
+already
+als
+also
+although
+always
+am
+among
+amongst
+an
+and
+another
+any
+anybody
+anyhow
+anyone
+anything
+anyway
+anywhere
+apart
+apparently
+are
+aren
+arise
+around
+as
+aside
+at
+au
+auf
+aus
+aux
+av
+avec
+away
+b
+be
+became
+because
+become
+becomes
+becoming
+been
+before
+beforehand
+began
+begin
+beginning
+begins
+behind
+bei
+being
+below
+beside
+besides
+best
+better
+between
+beyond
+billion
+both
+briefly
+but
+by
+c
+came
+can
+cannot
+canst
+caption
+captions
+certain
+certainly
+cf
+choose
+chooses
+choosing
+chose
+chosen
+clear
+clearly
+co
+come
+comes
+con
+contrariwise
+cos
+could
+couldn
+cu
+d
+da
+dans
+das
+day
+de
+degli
+dei
+del
+della
+delle
+dem
+den
+der
+deren
+des
+di
+did
+didn
+die
+different
+din
+do
+does
+doesn
+doing
+don
+done
+dos
+dost
+double
+down
+du
+dual
+due
+durch
+during
+e
+each
+ed
+eg
+eight
+eighty
+either
+el
+else
+elsewhere
+em
+en
+end
+ended
+ending
+ends
+enough
+es
+especially
+et
+etc
+even
+ever
+every
+everybody
+everyone
+everything
+everywhere
+except
+excepts
+excepted
+excepting
+exception
+exclude
+excluded
+excludes
+excluding
+exclusive
+f
+fact
+facts
+far
+farther
+farthest
+few
+ff
+fifty
+finally
+first
+five
+foer
+follow
+followed
+follows
+following
+for
+former
+formerly
+forth
+forty
+forward
+found
+four
+fra
+frequently
+from
+front
+fuer
+further
+furthermore
+furthest
+g
+gave
+general
+generally
+get
+gets
+getting
+give
+given
+gives
+giving
+go
+going
+gone
+good
+got
+great
+greater
+h
+had
+haedly
+half
+halves
+hardly
+has
+hasn
+hast
+hath
+have
+haven
+having
+he
+hence
+henceforth
+her
+here
+hereabouts
+hereafter
+hereby
+herein
+hereto
+hereupon
+hers
+herself
+het
+high
+higher
+highest
+him
+himself
+hindmost
+his
+hither
+how
+however
+howsoever
+hundred
+hundreds
+i
+ie
+if
+ihre
+ii
+im
+immediately
+important
+in
+inasmuch
+inc
+include
+included
+includes
+including
+indeed
+indoors
+inside
+insomuch
+instead
+into
+inward
+is
+isn
+it
+its
+itself
+j
+ja
+journal
+journals
+just
+k
+kai
+keep
+keeping
+kept
+kg
+kind
+kinds
+km
+l
+la
+large
+largely
+larger
+largest
+las
+last
+later
+latter
+latterly
+le
+least
+les
+less
+lest
+let
+like
+likely
+little
+ll
+long
+longer
+los
+low
+lower
+lowest
+ltd
+m
+made
+mainly
+make
+makes
+making
+many
+may
+maybe
+me
+meantime
+meanwhile
+med
+might
+million
+mine
+miss
+mit
+more
+moreover
+most
+mostly
+mr
+mrs
+ms
+much
+mug
+must
+my
+myself
+n
+na
+nach
+namely
+nas
+near
+nearly
+necessarily
+necessary
+need
+needs
+needed
+needing
+neither
+nel
+nella
+never
+nevertheless
+new
+next
+nine
+ninety
+no
+nobody
+none
+nonetheless
+noone
+nope
+nor
+nos
+not
+note
+noted
+notes
+noting
+nothing
+notwithstanding
+now
+nowadays
+nowhere
+o
+obtain
+obtained
+obtaining
+obtains
+och
+of
+off
+often
+og
+ohne
+ok
+old
+om
+on
+once
+onceone
+one
+only
+onto
+or
+ot
+other
+others
+otherwise
+ou
+ought
+our
+ours
+ourselves
+out
+outside
+over
+overall
+owing
+own
+p
+par
+para
+particular
+particularly
+past
+per
+perhaps
+please
+plenty
+plus
+por
+possible
+possibly
+pour
+poured
+pouring
+pours
+predominantly
+previously
+pro
+probably
+prompt
+promptly
+provide
+provides
+provided
+providing
+q
+quite
+r
+rather
+re
+ready
+really
+recent
+recently
+regardless
+relatively
+respectively
+round
+s
+said
+same
+sang
+save
+saw
+say
+second
+see
+seeing
+seem
+seemed
+seeming
+seems
+seen
+sees
+seldom
+self
+selves
+send
+sending
+sends
+sent
+ses
+seven
+seventy
+several
+shall
+shalt
+she
+short
+should
+shouldn
+show
+showed
+showing
+shown
+shows
+si
+sideways
+significant
+similar
+similarly
+simple
+simply
+since
+sing
+single
+six
+sixty
+sleep
+sleeping
+sleeps
+slept
+slew
+slightly
+small
+smote
+so
+sobre
+some
+somebody
+somehow
+someone
+something
+sometime
+sometimes
+somewhat
+somewhere
+soon
+spake
+spat
+speek
+speeks
+spit
+spits
+spitting
+spoke
+spoken
+sprang
+sprung
+staves
+still
+stop
+strongly
+substantially
+successfully
+such
+sui
+sulla
+sung
+supposing
+sur
+t
+take
+taken
+takes
+taking
+te
+ten
+tes
+than
+that
+the
+thee
+their
+theirs
+them
+themselves
+then
+thence
+thenceforth
+there
+thereabout
+thereabouts
+thereafter
+thereby
+therefor
+therefore
+therein
+thereof
+thereon
+thereto
+thereupon
+these
+they
+thing
+things
+third
+thirty
+this
+those
+thou
+though
+thousand
+thousands
+three
+thrice
+through
+throughout
+thru
+thus
+thy
+thyself
+til
+till
+time
+times
+tis
+to
+together
+too
+tot
+tou
+toward
+towards
+trillion
+trillions
+twenty
+two
+u
+ueber
+ugh
+uit
+un
+unable
+und
+under
+underneath
+unless
+unlike
+unlikely
+until
+up
+upon
+upward
+us
+use
+used
+useful
+usefully
+user
+users
+uses
+using
+usually
+v
+van
+various
+ve
+very
+via
+vom
+von
+voor
+vs
+w
+want
+was
+wasn
+way
+ways
+we
+week
+weeks
+well
+went
+were
+weren
+what
+whatever
+whatsoever
+when
+whence
+whenever
+whensoever
+where
+whereabouts
+whereafter
+whereas
+whereat
+whereby
+wherefore
+wherefrom
+wherein
+whereinto
+whereof
+whereon
+wheresoever
+whereto
+whereunto
+whereupon
+wherever
+wherewith
+whether
+whew
+which
+whichever
+whichsoever
+while
+whilst
+whither
+who
+whoever
+whole
+whom
+whomever
+whomsoever
+whose
+whosoever
+why
+wide
+widely
+will
+wilt
+with
+within
+without
+won
+worse
+worst
+would
+wouldn
+wow
+x
+xauthor
+xcal
+xnote
+xother
+xsubj
+y
+ye
+year
+yes
+yet
+yipee
+you
+your
+yours
+yourself
+yourselves
+yu
+z
+za
+ze
+zu
+zum</pre></body></html>
