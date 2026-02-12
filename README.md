@@ -1,20 +1,29 @@
 # CSI4107-Info.-Retrieval-And-Internet-A1
 
-Assignment 1
+## Assignment 1
 
-Student Names and Student Numbers
+### Student Names and Student Numbers
 
 1- Michael Massaad (300293612).
 2- Gabriel Zohrob (300309391).
 3- Matin Hassanzadeh Mobini ().
 4- Eric Zhou (300286231).
 
-Tasks division:
+### Tasks division:
 
 - Michael Massaad: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
 - Gabriel Zohrob: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
 - Matin Hassanzadeh Mobini:
-- Eric Zhou: 
+- Eric Zhou: Implemented the preprocessing.py for Step 1 - Preprocessing
+
+### Code Explanation
+- preprocessing.py
+
+    This file implements the preprocessing component of thee Information Retrieval system. It is responsible for tokenization and stopword removal on a given document of text. It filters out markup, punctuation, numbers, and stopwords, and a step of Porter Stemming is included.
+
+  There are two functions:
+  - The first is preprocess_corpus which is used to process the text of each document in order as well as combining the title and text of each document together.
+  - The seecond is preprocess_text which is the main method used to filter and tokenize each word.
 
 - retrieval.py
 
