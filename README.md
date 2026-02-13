@@ -6,14 +6,14 @@
 
 1. Michael Massaad (300293612)
 2. Gabriel Zohrob (300309391)
-3. Matin Hassanzadeh Mobini ()
+3. Matin Hassanzadeh Mobini (300283854)
 4. Eric Zhou (300286231)
 
 ### Tasks division:
 
 - Michael Massaad: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
 - Gabriel Zohrob: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
-- Matin Hassanzadeh Mobini:
+- Matin Hassanzadeh Mobini: Implemented Step 2 - Indexing (indexing.py), including building the inverted index, computing IDF values, and precomputing document vector lengths. Also created the runner script (run_ir.py) to build the index and generate the Results file in TREC format for the test queries.
 - Eric Zhou: Implemented the preprocessing.py for Step 1 - Preprocessing
 
 ### Code Explanation
@@ -24,6 +24,22 @@
   There are two functions:
   - The first is preprocess_corpus which is used to process the text of each document in order as well as combining the title and text of each document together.
   - The seecond is preprocess_text which is the main method used to filter and tokenize each word.
+
+- indexing.py
+
+This file implements Step 2 - Indexing. It builds an inverted index over the SciFact corpus using the tokens produced by preprocessing.py. The index maps each term to the list of documents that contain the term along with its term frequency. The file also computes IDF values for each term and precomputes each document’s TF-IDF vector length (L2 norm) to support cosine similarity normalization during retrieval.
+
+Outputs produced by this module:
+- index: term -> {doc_id: tf}
+- idf: term -> idf(term)
+- doc_lengths: doc_id -> ||doc||
+
+The generated structures are saved to disk (index.pkl) so retrieval can be run efficiently without rebuilding the index every time.
+
+- run_ir.py
+
+This script runs the full pipeline on the test queries. It can rebuild/load the index and produces a Results file in the required TREC format (query_id Q0 doc_id rank score tag) for the top-100 documents per query. It supports running using query titles only or titles + full text.
+
 
 - retrieval.py
 
