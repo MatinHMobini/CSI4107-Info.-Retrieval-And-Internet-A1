@@ -77,4 +77,23 @@ This script runs the full pipeline on the test queries. It can rebuild/load the 
         6. Ranking and output  
         All candidate documents are sorted in decreasing order of their cosine similarity scores. The function returns the top k documents (default k = 100) as a list of (doc_id, score) tuples, which are later used to generate the final Results file in TREC format.
 
+### How to run the code: 
+
+1. Open a terminal in the project directory (where all the project files are located).
+
+2. Create a virtual environment by running: python -m venv .venv
+
+3. Activate the virtual environment:
+- On Windows:.venv\Scripts\activate
+- On macOS/Linux: source .venv/bin/activate
+
+4. Install the required library: pip install nltk
+
+5. Run the system using query titles only: python run_ir.py --rebuild --mode title --run_name title_run --results_path Results_title
+
+6. Run the system using query titles and full text: python run_ir.py --mode title+text --run_name title_text_run --results_path Results_title_text
+
+7. Evaluate the results using trec_eval:
+- trec_eval test.tsv Results_title
+- trec_eval test.tsv Results_title_text
 
