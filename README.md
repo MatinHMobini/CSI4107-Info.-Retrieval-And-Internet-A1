@@ -94,6 +94,83 @@ This script runs the full pipeline on the test queries. It can rebuild/load the 
 6. Run the system using query titles and full text: python run_ir.py --mode title+text --run_name title_text_run --results_path Results_title_text
 
 7. Evaluate the results using trec_eval:
-- trec_eval test.tsv Results_title
-- trec_eval test.tsv Results_title_text
+- trec_eval qrels.txt Results_title
+- trec_eval qrels.txt Results_title_text
 
+### Algorithms, Data Structures, Optimizations explanation:
+
+  Step 1: Preprocessing (tokenization, stopwords, stemming)
+
+    Algorithm
+
+      - Lowercase the text.
+      - Remove HTML/markup tags using a regex (<.*?>).
+      - Remove punctuation via str.translate(...).
+      - Remove numbers via regex (\d+).
+      - Tokenize by splitting on whitespace.
+      - Remove stopwords loaded from the provided stopwords.html file (parsed from the <pre>...</pre> section).
+      - Apply Porter stemming to every remaining token. 
+
+    Data structures
+    
+    - Stopwords stored as a Python list (then used for filtering).
+    - Tokens stored as Python lists. 
+  
+    Optimization(s)
+    
+    - The preprocessing pipeline is lightweight (regex + string ops + list filtering) and is reused consistently for documents and queries.
+
+Step 2: Indexing (inverted index + TF-IDF statistics)
+
+  Algorithm
+
+    - The corpus is read from corpus.jsonl, and for each document the indexed text is title + text concatenated.
+    - Index building is done in two passes:
+
+      1- Pass 1: compute document frequency df(t) and count total indexed docs N.
+      2- Pass 2: build the inverted index term -> {doc_id: tf} and compute each document’s TF-IDF vector magnitude (used later for cosine similarity).
+
+  Weighting
+
+    - IDF uses a smooth formula:
+      idf(t) = log ((N + 1) / (df(t) + 1)) + 1
+    - TF uses either:
+      raw tf (default), or log-tf if enabled: tf_w = 1 + log (tf) via the use_log_tf flag.
+  
+  Data Structures
+
+    - df: Counter() for documents frequencies.
+    - Inverted index: defaultdict(dict) storing postings as index[term][doc_id] = tf_w.
+    - doc_lengths: dict mapping doc_id -> ||doc|| (TF-IDF vector magnitude, not token count).
+    - Index persistence: saved/loaded with pickle (save_index, load_index).
+
+  Optimizations
+
+    - Precomputes document vector magnitudes (doc_lengths) during indexing, so cosine similarity is fast at query time.
+    - Optional log-tf can be enabled with --use_log_tf to reduce the impact of very frequent terms.
+
+Step 3: Retrieval and Ranking (TF-IDF cosine similarity)
+
+  Algorithm
+
+  For each query:
+    - Preprocess the query using the same preprocessing function as documents.
+    - Compute query term frequencies with Counter.
+    - Compute query TF-IDF weights w(t,q) = tf(t,q) * idf(t).
+    - Use the inverted index to score only candidate docs that contain at least one query term (via postings lookup).
+    - Accumulate dot product: sum_t w(t,q) * w(t,d) where w(t,d) = tf(t,d) * idf(t).
+    - Normalize by cosine similarity:
+      score(d,q) = dot(d,q) / (||d|| * ||q||)
+      ||d|| is taken from doc_lengths computed in indexing.
+    - Sort scores descending and return top-100.
+
+  Data Structures: 
+
+    - Counter for query tf.
+    - defaultdict(float) for accumulating scores.
+    - Postings accessed from index[term] which is a dict of doc_id → tf_w.
+  
+  Optimizations:
+
+    - Candidate restriction: only documents appearing in postings for at least one query term get scored (avoids scoring the whole corpus).
+    - Uses precomputed doc_lengths (TF-IDF norms) to avoid recomputing document norms for every query.
