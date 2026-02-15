@@ -11,9 +11,9 @@
 
 ### Tasks division:
 
-- Michael Massaad: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
-- Gabriel Zohrob: Implemented the retrieval.py for Step 3 - Retrieval and Ranking
-- Matin Hassanzadeh Mobini: Implemented Step 2 - Indexing (indexing.py), including building the inverted index, computing IDF values, and precomputing document vector lengths. Also created the runner script (run_ir.py) to build the index and generate the Results file in TREC format for the test queries.
+- Michael Massaad: Implemented the retrieval.py for Step 3 - Retrieval and Ranking, contributed in the readme report.
+- Gabriel Zohrob: Implemented the retrieval.py for Step 3 - Retrieval and Ranking, contributed in the readme report.
+- Matin Hassanzadeh Mobini: Implemented Step 2 - Indexing (indexing.py), including building the inverted index, computing IDF values, and precomputing document vector lengths. Also created the runner script (run_ir.py) to build the index and generate the Results file in TREC format for the test queries. Contributed in the readme report
 - Eric Zhou: Implemented the preprocessing.py for Step 1 - Preprocessing
 
 ### Code Explanation
