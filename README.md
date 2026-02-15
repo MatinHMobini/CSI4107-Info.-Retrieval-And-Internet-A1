@@ -89,13 +89,13 @@ This script runs the full pipeline on the test queries. It can rebuild/load the 
 
 4. Install the required library: pip install nltk
 
-5. Run the system using query titles only: python run_ir.py --rebuild --mode title --run_name title_run --results_path Results_title
+5. Run the system using query titles only: python run_ir.py --rebuild --doc_mode title --run_name doc_title --results_path Results_doc_title
 
-6. Run the system using query titles and full text: python run_ir.py --mode title+text --run_name title_text_run --results_path Results_title_text
+6. Run the system using query titles and full text: python run_ir.py --rebuild --doc_mode title+text --run_name doc_title_text --results_path Results_doc_title_text
 
 7. Evaluate the results using trec_eval:
-- trec_eval qrels.txt Results_title
-- trec_eval qrels.txt Results_title_text
+- trec_eval -m map qrels.txt Results_doc_title
+- trec_eval -m map qrels.txt Results_doc_title_text
 
 
 ### Experiments and Results (MAP)
