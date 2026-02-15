@@ -39,6 +39,8 @@ def main():
     ap.add_argument("--mode", choices=["title", "title+text"], default="title")
     ap.add_argument("--use_log_tf", action="store_true")
     ap.add_argument("--rebuild", action="store_true")
+    ap.add_argument("--doc_mode", choices=["title", "title+text"], default="title+text")
+
     args = ap.parse_args()
 
     # Build/load index
@@ -48,8 +50,10 @@ def main():
         index_data = build_inverted_index(
             corpus_path=args.corpus,
             preprocess_fn=preprocess_text,
-            use_log_tf=args.use_log_tf
+            use_log_tf=args.use_log_tf,
+            doc_mode=args.doc_mode
         )
+
         save_index(index_data, args.index_path)
 
     index = index_data["index"]
@@ -59,7 +63,7 @@ def main():
     # Quick sanity prints (useful for README stats)
     print("Indexed docs:", index_data["N_docs"])
     print("Vocab size:", index_data["vocab_size"])
-    print("Vocab sample (first 20):", sample_vocabulary(index_data, 20))
+    print("Vocab sample (first 100):", sample_vocabulary(index_data, 100))
 
     # Run retrieval for odd queries only
     with open(args.results_path, "w", encoding="utf-8") as out:

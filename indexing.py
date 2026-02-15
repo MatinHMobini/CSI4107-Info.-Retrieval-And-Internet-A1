@@ -6,22 +6,31 @@ from collections import Counter, defaultdict
 from typing import Callable, Dict, Any
 
 
-def _iter_corpus(corpus_path: str):
-    """Yields (doc_id, raw_text) from BEIR SciFact corpus.jsonl."""
+def _iter_corpus(corpus_path: str, doc_mode: str):
     with open(corpus_path, "r", encoding="utf-8") as f:
         for line in f:
             if not line.strip():
                 continue
             doc = json.loads(line)
             doc_id = str(doc["_id"])
-            text = (doc.get("title", "") + " " + doc.get("text", "")).strip()
-            yield doc_id, text
+
+            title = (doc.get("title", "") or "").strip()
+            text  = (doc.get("text", "")  or "").strip()
+
+            if doc_mode == "title":
+                raw = title
+            else:  # "title+text"
+                raw = (title + " " + text).strip()
+
+            yield doc_id, raw
+
 
 
 def build_inverted_index(
     corpus_path: str,
     preprocess_fn: Callable[[str], list],
-    use_log_tf: bool = False
+    use_log_tf=False,
+    doc_mode="title+text"
 ) -> Dict[str, Any]:
     """
     Builds:
@@ -35,7 +44,7 @@ def build_inverted_index(
     df = Counter()
     N = 0  # number of docs seen (non-empty after preprocessing)
 
-    for doc_id, text in _iter_corpus(corpus_path):
+    for doc_id, text in _iter_corpus(corpus_path, doc_mode):
         tokens = preprocess_fn(text)
         if not tokens:
             continue
@@ -55,7 +64,7 @@ def build_inverted_index(
     index = defaultdict(dict)
     doc_lengths = {}
 
-    for doc_id, text in _iter_corpus(corpus_path):
+    for doc_id, text in _iter_corpus(corpus_path, doc_mode):
         tokens = preprocess_fn(text)
         if not tokens:
             continue
