@@ -97,6 +97,68 @@ This script runs the full pipeline on the test queries. It can rebuild/load the 
 - trec_eval qrels.txt Results_title
 - trec_eval qrels.txt Results_title_text
 
+
+### Experiments and Results (MAP)
+
+We ran two configurations:
+
+Run A (doc_title): indexed document titles only (--doc_mode title)
+MAP = 0.3650
+
+Run B (doc_title_text): indexed document titles + abstracts (--doc_mode title+text)
+MAP = 0.5368
+
+Best run: doc_title_text (MAP 0.5368). The final submission file "Results" corresponds to this run.
+
+
+### Discussion
+
+Indexing titles + abstracts (Run B) performs substantially better than indexing titles only (Run A), improving MAP from 0.3650 to 0.5368. This is expected because abstracts contain many domain terms (methods, outcomes, entities) that do not appear in titles, increasing term overlap between queries (claims) and relevant documents and improving recall without severely harming precision.
+
+
+
+### Vocabulary size and sample tokens
+
+Run A (doc_title) vocabulary size: 8729 tokens
+Run B (doc_title_text) vocabulary size: 32152 tokens
+
+Sample of 100 vocabulary tokens (Run B):
+Vocab sample (first 100): ['aa', 'aaa', 'aaaatpas', 'aaafamili', 'aab', 'aabenhu', 'aacr', 'aacrthi', 'aad', 'aadinduc', 'aadtreat', 'aag', 'aah', 'aai', 'aakampk', 'aalpha', 'aam', 'aanatsnat', 'aarhu', 'aaronquinlangmailcom', 'aasv', 'aatf', 'aauaaa', 'aav', 'ab', 'abad', 'abandon', 'abas', 'abb', 'abber', 'abbott', 'abbrevi', 'abc', 'abca', 'abcamedi', 'abcb', 'abcc', 'abcg', 'abciximab', 'abciximabrel', 'abctarget', 'abd', 'abda', 'abdb', 'abdomen', 'abdomin', 'abdominala', 'abduct', 'aberr', 'aberrantincomplet', 'aberrantli', 'abeta', 'abf', 'abfreb', 'abfrebsit', 'abi', 'abibas', 'abil', 'ability–', 'abiot', 'abirateron', 'abl', 'ablat', 'abm', 'abmd', 'abnorm', 'abocompat', 'abolish', 'abort', 'abound', 'abovefacil', 'abovement', 'abp', 'abpa', 'abpi', 'abrb', 'abroad', 'abrog', 'abrupt', 'abruptli', 'abscess', 'abscis', 'absciss', 'absenc', 'absent', 'absolut', 'absoluteconcentr', 'absorb', 'absorbancecytophotometr', 'absorpt', 'absorptiometri', 'abstain', 'abstent', 'abstin', 'abstract', 'abstracta', 'abstractmicrorna', 'abt', 'abuja', 'abulia']
+
+
+
+### Top-10 retrieved documents for the first two queries (Best run)
+
+We show the first 10 ranked documents (TREC format lines) for the first two query IDs in the Results file (Run B / best run):
+
+Query 9 top 10:
+
+9 Q0 44265107 1 0.587922 doc_title_text
+9 Q0 24700152 2 0.301629 doc_title_text
+9 Q0 32787042 3 0.198282 doc_title_text
+9 Q0 14647747 4 0.190943 doc_title_text
+9 Q0 27188320 5 0.184525 doc_title_text
+9 Q0 6477536 6 0.180812 doc_title_text
+9 Q0 9056874 7 0.171567 doc_title_text
+9 Q0 19511011 8 0.168167 doc_title_text
+9 Q0 26105746 9 0.152509 doc_title_text
+9 Q0 25182647 10 0.152358 doc_title_text
+
+Query 11 top 10:
+
+11 Q0 25510546 1 0.259486 doc_title_text
+11 Q0 1887056 2 0.217684 doc_title_text
+11 Q0 5107861 3 0.196525 doc_title_text
+11 Q0 16712164 4 0.175488 doc_title_text
+11 Q0 4399311 5 0.172709 doc_title_text
+11 Q0 13780287 6 0.172630 doc_title_text
+11 Q0 2251426 7 0.166276 doc_title_text
+11 Q0 29459383 8 0.161431 doc_title_text
+11 Q0 32587939 9 0.151116 doc_title_text
+11 Q0 3173489 10 0.147288 doc_title_text
+
+
+
 ### Algorithms, Data Structures, Optimizations explanation:
 
   Step 1: Preprocessing (tokenization, stopwords, stemming)
