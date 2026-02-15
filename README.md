@@ -23,7 +23,7 @@
 
   There are two functions:
   - The first is preprocess_corpus which is used to process the text of each document in order as well as combining the title and text of each document together.
-  - The seecond is preprocess_text which is the main method used to filter and tokenize each word.
+  - The second is preprocess_text which is the main method used to filter and tokenize each word.
 
 - indexing.py
 
